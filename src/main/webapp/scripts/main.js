@@ -1,6 +1,6 @@
 
-function haeAsiakkaat() {
-	let url = "asiakkaat"; 
+function haeAsiakkaat(){
+	let url = "asiakkaat?hakusana=" + document.getElementById("hakusana").value; 
 	let requestOptions = {
         method: "GET",
         headers: { "Content-Type": "application/x-www-form-urlencoded" }       
@@ -13,7 +13,6 @@ function haeAsiakkaat() {
 
 
 function printItems(respObjList){
-	//console.log(respObjList);
 	let htmlStr="";
 	for(let item of respObjList){	
     	htmlStr+="<tr id='rivi_"+item.asiakas_id+"'>";

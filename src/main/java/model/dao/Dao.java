@@ -13,7 +13,7 @@ public class Dao {
 	private Connection con = null;
 	private ResultSet rs = null;
 	private PreparedStatement stmtPrep = null;
-	private String sql;
+	private String sql = "";
 	private String db = "Myynti.sqlite";
 
 	private Connection yhdista() {
@@ -57,9 +57,10 @@ public class Dao {
 		}
 	}
 	
+
 	public ArrayList<Asiakas> getAllItems() {
 		ArrayList<Asiakas> asiakkaat = new ArrayList<Asiakas>();
-		sql = "SELECT * FROM asiakkaat ORDER BY asiakas_id"; 
+		sql = "SELECT * FROM asiakkaat ORDER BY asiakas_id DESC"; 
 		try {
 			con = yhdista();
 			if (con != null) { 
@@ -68,14 +69,12 @@ public class Dao {
 				if (rs != null) { 
 					while (rs.next()) {
 						Asiakas asiakas = new Asiakas();
-						
 						asiakas.setAsiakas_id(rs.getInt(1));
 						asiakas.setEtunimi(rs.getString(2));
 						asiakas.setSukunimi(rs.getString(3));
 						asiakas.setPuhelin(rs.getString(4));
-						asiakas.setSposti(rs.getString(5));
-						asiakkaat.add(asiakas);
-
+						asiakas.setSposti(rs.getString(4));
+						asiakkaat.add(asiakas);						
 					}
 				}
 			}
@@ -86,5 +85,36 @@ public class Dao {
 		}
 		return asiakkaat;
 	}
-
+	
+	public ArrayList<Asiakas> getAllItems(String searchStr) { 
+		ArrayList<Asiakas> asiakkaat = new ArrayList<Asiakas>();
+		sql = "SELECT * FROM asiakkaat WHERE etunimi LIKE ? or sukunimi LIKE ? or puhelin LIKE ? or sposti LIKE ? ORDER BY asiakas_id DESC";
+		try {
+			con = yhdista();
+			if (con != null) { 
+				stmtPrep = con.prepareStatement(sql);
+				stmtPrep.setString(1, "%" + searchStr + "%");
+				stmtPrep.setString(2, "%" + searchStr + "%");
+				stmtPrep.setString(3, "%" + searchStr + "%");
+				stmtPrep.setString(4, "%" + searchStr + "%");
+				rs = stmtPrep.executeQuery();
+				if (rs != null) { 
+					while (rs.next()) {
+						Asiakas asiakas = new Asiakas();
+						asiakas.setAsiakas_id(rs.getInt(1));
+						asiakas.setEtunimi(rs.getString(2));
+						asiakas.setSukunimi(rs.getString(3));
+						asiakas.setPuhelin(rs.getString(4));
+						asiakas.setSposti(rs.getString(4));
+						asiakkaat.add(asiakas);		
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			sulje();
+		}
+		return asiakkaat;
+	}
 }
