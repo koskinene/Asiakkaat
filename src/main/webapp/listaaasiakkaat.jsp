@@ -26,5 +26,9 @@
 	<tbody id="tbody">
 	</tbody>
 </table>
+<span id="ilmo"></span>
+<script>
+haeAsiakkaat();
+</script>
 </body>
 </html>
