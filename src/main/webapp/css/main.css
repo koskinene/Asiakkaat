@@ -21,3 +21,24 @@ table th {
   background-color: #ff8040;
   color: #000000;
 }
+
+.poista{
+	color: red;
+	text-decoration: underline;
+	cursor: pointer;	
+}
+
+.oikealle{
+	text-align: right;	
+}
+
+#uusiAsiakas, #takaisin{
+	color: black;	
+	cursor: pointer;	
+}
+
+#linkki{
+	color: black;	
+	text-decoration: none;
+}
+
